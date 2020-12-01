@@ -1,6 +1,6 @@
-$first-color: #112823 ;
+$first-color: #112823;
 
-$second-color : #D1FCB0 ;
+$second-color: #D1FCB0;
 
 body {
     background-color: $first-color;
@@ -8,6 +8,16 @@ body {
 
 h1 {
     font-family: 'Black Ops One', cursive;
+    color:white;
+}
+
+h2 {
+    font-family: 'Black Ops One', cursive;
+    color:white;
+}
+
+p {
+    font-family: 'Open Sans', sans-serif;
     color:white;
 }
 
