@@ -11,6 +11,13 @@
                     <h1 class="mt-0">{{ program.title }}</h1>
                     <p>{{ program.summary }}</p>
                     <p>Catégorie : {{ program.category.name }}</p>
+
+                    <h2> Les saisons disponibles </h2>
+                    {% for season in seasons %}
+                        <div class="season">
+                            <a href="/programs/{{ program.id }}/seasons/{{ season.number }}"> Saison {{ season.number }}</a>
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
 

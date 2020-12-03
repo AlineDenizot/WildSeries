@@ -76,3 +76,19 @@ p {
 .profile:nth-child(3) {
     margin-left: 50%;
 }
+
+.season a
+{
+    color:white;
+}
+
+.season a:hover {
+    opacity: 0.8;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.season_description {
+    margin-top: 5em;
+    margin-bottom: 5em;
+}
