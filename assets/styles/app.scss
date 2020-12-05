@@ -80,6 +80,7 @@ p {
 .season a
 {
     color:white;
+    padding-left: 50px;
 }
 
 .season a:hover {
@@ -91,4 +92,9 @@ p {
 .season_description {
     margin-top: 5em;
     margin-bottom: 5em;
+}
+
+.season_description h2,
+.season_description h1{
+    margin-top:50px;
 }
