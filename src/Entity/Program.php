@@ -45,7 +45,6 @@ class Program
      *
      */
     private $summary;
-
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
@@ -116,9 +115,21 @@ class Program
      */
     private $seasons;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Actor::class, mappedBy="programs")
+     */
+    private $actors;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Actor::class)
+     */
+    private $actor;
+
     public function __construct()
     {
         $this->seasons = new ArrayCollection();
+        $this->actors = new ArrayCollection();
+        $this->actor = new ArrayCollection();
     }
 
     /**
@@ -156,5 +167,40 @@ class Program
             }
         }
         return $this;
+    }
+
+    /**
+     * @return Collection|Actor[]
+     */
+    public function getActors(): Collection
+    {
+        return $this->actors;
+    }
+
+    public function addActor(Actor $actor): self
+    {
+        if (!$this->actors->contains($actor)) {
+            $this->actors[] = $actor;
+            $actor->addProgram($this);
+        }
+
+        return $this;
+    }
+
+    public function removeActor(Actor $actor): self
+    {
+        if ($this->actors->removeElement($actor)) {
+            $actor->removeProgram($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Actor[]
+     */
+    public function getActor(): Collection
+    {
+        return $this->actor;
     }
 }

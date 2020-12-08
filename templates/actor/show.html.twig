@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Acteur{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="container">
+            <div class="media">
+                <div class="media-body">
+                    <h1 class="mt-0">{{ actor.name }}</h1>
+                    <h2>Ses séries :</h2>
+                    <ul>
+                        {% for program in actor.programs %}
+                            <li> {{ program.title }} </li>
+                        {% endfor %}
+                    </ul>
+
+                </div>
+            </div>
+
+            <a href="{{ path('actor_index') }}">
+                Retour à la liste des acteurs
+            </a>
+        </div>
+    </div>
+{% endblock %}

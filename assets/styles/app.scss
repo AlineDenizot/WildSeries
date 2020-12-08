@@ -21,6 +21,10 @@ p {
     color:white;
 }
 
+ul, li, strong {
+    color: white;
+}
+
 .navbar {
     background-color: $first-color;
 }
@@ -92,6 +96,10 @@ p {
 .season_description {
     margin-top: 5em;
     margin-bottom: 5em;
+}
+
+.season li {
+    list-style-type: none;
 }
 
 .season_description h2,
