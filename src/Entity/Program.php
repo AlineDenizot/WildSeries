@@ -6,9 +6,16 @@ use App\Repository\ProgramRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProgramRepository")
+ * @UniqueEntity("title",
+ *          message="ce titre existe déjà"
+ * )
  */
 class Program
 {
@@ -21,11 +28,21 @@ class Program
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="N'oublie pas le titre !")
+     * @Assert\Length(max="255")
+     *
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank(message="N'oublie pas le résumé !")
+     * @Assert\Regex(
+     *     pattern="/(plus belle la vie)/",
+     *     match=false,
+     *     message="On parle de vraies séries ici"
+     * )
+     *
      */
     private $summary;
 
