@@ -17,6 +17,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *          message="ce titre existe déjà"
  * )
  */
+
+
 class Program
 {
     /**
@@ -120,16 +122,11 @@ class Program
      */
     private $actors;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Actor::class)
-     */
-    private $actor;
 
     public function __construct()
     {
         $this->seasons = new ArrayCollection();
         $this->actors = new ArrayCollection();
-        $this->actor = new ArrayCollection();
     }
 
     /**
@@ -201,6 +198,6 @@ class Program
      */
     public function getActor(): Collection
     {
-        return $this->actor;
+        return $this->actors;
     }
 }
