@@ -11,6 +11,26 @@
                     Episode {{ episode.number }} : {{ episode.title }}</h2>
                 <p>{{ episode.synopsis }}</p>
 
+                <h4> Les derniers commentaires </h4>
+
+                <table class="table">
+                    <tbody>
+                    {% for comment in comments %}
+                    <tr>
+                        <th>Commentaire de {{ comment.author.email }}</th>
+                        <td>{{comment.comment}}</td>
+                    </tr>
+                    <tr>
+                        <th>Note</th>
+                        <td>{{comment.rate}}/10</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {% if app.user %}
+                    <a href="{{ path("program_episode_show", { 'programSlug': program.slug, 'seasonId' : season.id, 'episodeSlug' : episode.slug}) }}/new_comment">
+                        Ajouter un commentaire</a> <br/>
+                {% endif %}
             <a href="{{ path('program_index') }}">
                 Retour à la liste des programmes
             </a>
