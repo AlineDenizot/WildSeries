@@ -6,11 +6,13 @@ namespace App\Controller;
 use App\Entity\Comment;
 use App\Entity\Program;
 use App\Entity\Season;
+use App\Entity\User;
 use App\Entity\Episode;
 use App\Form\CommentType;
 use App\Service\Slugify;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
@@ -52,6 +54,10 @@ class ProgramController extends AbstractController
             // Get the Entity Manager
             $entityManager = $this->getDoctrine()->getManager();
             $slug = $slugify->generate($program->getTitle());
+
+            // Set the program's owner
+            $program->setOwner($this->getUser());
+
             $program->setSlug($slug);
             // Persist Category Object
             $entityManager->persist($program);
@@ -171,4 +177,30 @@ class ProgramController extends AbstractController
 
         ]);
     }
+
+    /**
+     * @Route ("/{slug}/edit", name="edit", methods={"GET","POST"})
+     */
+    public function edit(Request $request, Program $program): Response
+    {
+        $form = $this->createForm(ProgramType::class, $program);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('program_index');
+        }
+
+        if (!($this->getUser() == $program->getOwner())) {
+            // If not the owner, throws a 403 Access Denied exception
+            throw new AccessDeniedException('Only the owner can edit the program!');
+        }
+
+        return $this->render('program/edit.html.twig', [
+            'season' => $program,
+            'form' => $form->createView(),
+        ]);
+    }
+
 }

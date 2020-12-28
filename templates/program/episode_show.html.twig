@@ -28,9 +28,11 @@
                     </tbody>
                 </table>
                 {% if app.user %}
-                    <a href="{{ path("program_episode_show", { 'programSlug': program.slug, 'seasonId' : season.id, 'episodeSlug' : episode.slug}) }}/new_comment">
-                        Ajouter un commentaire</a> <br/>
-                {% endif %}
+                    {% if is_granted("ROLE_CONTRIBUTOR") %}
+                <a href="{{ path("program_episode_show", { 'programSlug': program.slug, 'seasonId' : season.id, 'episodeSlug' : episode.slug}) }}/new_comment">
+                    Ajouter un commentaire</a> <br/>
+                    {% endif %}
+                {%endif%}
             <a href="{{ path('program_index') }}">
                 Retour à la liste des programmes
             </a>
