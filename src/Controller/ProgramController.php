@@ -173,7 +173,8 @@ class ProgramController extends AbstractController
             'season' => $season,
             'program' => $program,
             'episode' => $episode,
-            'comments' => $comments, "form" => $form->createView()
+            'comments' => $comments,
+            "form" => $form->createView()
 
         ]);
     }

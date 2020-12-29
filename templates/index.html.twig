@@ -1,5 +1,16 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<h1>{{ title }}</h1>
+    <div class="container-fluid">
+        <div class="container">
+            <h1>- Les denières séries enregistrées - </h1>
+            {% for program in programs %}
+                <div>
+                    <h2><a href="{{ path('program_show', {'slug': program.slug })}}">{{ program.title }}</a></h2>
+                    <p>{{ program.summary }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
 {% endblock %}

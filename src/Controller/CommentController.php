@@ -85,7 +85,7 @@ class CommentController extends AbstractController
 
     /**
      * @Route("/{id}", name="comment_delete", methods={"DELETE"})
-     * @IsGranted("ROLE_ADMIN")
+     * @IsGranted("ROLE_CONTRIBUTOR")
      */
     public function delete(Request $request, Comment $comment): Response
     {
