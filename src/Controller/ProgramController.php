@@ -9,6 +9,8 @@ use App\Entity\Season;
 use App\Entity\User;
 use App\Entity\Episode;
 use App\Form\CommentType;
+use App\Form\SearchProgramFormType;
+use App\Repository\ProgramRepository;
 use App\Service\Slugify;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,16 +29,22 @@ class ProgramController extends AbstractController
     /**
      * @Route("/", name="index")
      */
-    public function index(): Response
+    public function index(Request $request, ProgramRepository $programRepository): Response
     {
-        $programs = $this->getDoctrine()
-            ->getRepository(Program::class)
-            ->findAll();
+        $form = $this->createForm(SearchProgramFormType::class);
+        $form->handleRequest($request);
 
-        return $this->render(
-            'program/index.html.twig',
-            ['programs' => $programs]
-        );
+        if ($form->isSubmitted() && $form->isValid()) {
+            $search = $form->getData()['search'];
+            $programs = $programRepository->findLikeName($search);
+        } else {
+            $programs = $programRepository->findAll();
+        }
+
+        return $this->render('program/index.html.twig', [
+            'programs' => $programs,
+            'form' => $form->createView(),
+        ]);
     }
 
     /**

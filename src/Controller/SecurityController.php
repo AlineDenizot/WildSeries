@@ -81,7 +81,7 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/profil", name="app_profil")
+     * @Route("/my-profil", name="app_profil")
      */
     public function profil(): Response
     {
