@@ -73,18 +73,20 @@ class ProgramController extends AbstractController
             $entityManager->flush();
             // Finally redirect to categories list
 
+            $this->addFlash('success', 'Votre nouvelle série ' . $program->getTitle() . ' a bien été crée');
+
             $email = (new Email())
                 ->from($this->getParameter('mailer_from'))
                 ->to('your_email@example.com')
                 ->subject('Une nouvelle série vient d\'être publiée !')
                 ->html($this->renderView('program/newProgramEmail.html.twig', ['program' => $program]));
 
-
             $mailer->send($email);
 
             return $this->redirectToRoute('program_index');
         }
         return $this->render('program/new.html.twig', [
+            'program' => $program,
             "form" => $form->createView(),
         ]);
     }
@@ -198,6 +200,8 @@ class ProgramController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
+            $this->addFlash('success', 'Votre série ' . $program->getTitle() . ' a bien été modifié');
+
             return $this->redirectToRoute('program_index');
         }
 
@@ -207,9 +211,26 @@ class ProgramController extends AbstractController
         }
 
         return $this->render('program/edit.html.twig', [
-            'season' => $program,
+            'program' => $program,
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/{id}", name="delete", methods={"DELETE"})
+     */
+    public function delete(Request $request, Program $program): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$program->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($program);
+            $entityManager->flush();
+
+            $this->addFlash('danger', 'La série ' . $program->getTitle() . ' a bien été supprimé');
+
+        }
+
+        return $this->redirectToRoute('program_index');
     }
 
 }

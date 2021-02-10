@@ -48,6 +48,9 @@ class EpisodeController extends AbstractController
             $entityManager->persist($episode);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Le nouvel épisode de ' . $episode->getSeason()->getProgram()->getTitle() . ' a bien été crée');
+
+
             $email = (new Email())
                 ->from($this->getParameter('mailer_from'))
                 ->to('your_email@example.com')
@@ -89,6 +92,9 @@ class EpisodeController extends AbstractController
             $episode->setSlug($slug);
             $this->getDoctrine()->getManager()->flush();
 
+            $this->addFlash('success', 'Le nouvel épisode de ' . $episode->getSeason()->getProgram()->getTitle() . ' a bien été modifié');
+
+
             return $this->redirectToRoute('episode_index');
         }
 
@@ -99,7 +105,7 @@ class EpisodeController extends AbstractController
     }
 
     /**
-     * @Route("/{slug}", name="episode_delete", methods={"DELETE"})
+     * @Route("/{id}", name="episode_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Episode $episode): Response
     {
@@ -107,6 +113,9 @@ class EpisodeController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($episode);
             $entityManager->flush();
+
+            $this->addFlash('danger', 'Vous venez de supprimer un épide de ' . $episode->getSeason()->getProgram()->getTitle());
+
         }
 
         return $this->redirectToRoute('episode_index');
